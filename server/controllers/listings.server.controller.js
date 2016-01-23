@@ -52,7 +52,15 @@ exports.update = function(req, res) {
   console.log("Updating?");
 
   /* Replace the article's properties with the new properties found in req.body */
-  listing = new Listing(req.body);
+  Listing.findByIdAndUpdate(listing._id, function(err, listing) {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    } else {
+      res.json(listing);
+    }
+
+  });
   /* save the coordinates (located in req.results if there is an address property) */
   if(req.results) {
     listing.coordinates = {
@@ -77,7 +85,7 @@ exports.delete = function(req, res) {
   console.log("Deleting?");
 
   /* Remove the article */
-  Listing.findOneAndRemove({ code: listing.code }, function(err, listing) {
+  Listing.findByIdAndRemove(listing._id, function(err, listing) {
     if (err) {
       console.log(err);
       res.status(400).send(err);
