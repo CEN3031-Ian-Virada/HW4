@@ -49,18 +49,11 @@ exports.read = function(req, res) {
 /* Update a listing */
 exports.update = function(req, res) {
   var listing = req.listing;
-  console.log("Updating?");
+  console.log("Updated code: ");
+  console.log(listing.code);
 
   /* Replace the article's properties with the new properties found in req.body */
-  Listing.findByIdAndUpdate(listing._id, function(err, listing) {
-    if (err) {
-      console.log(err);
-      res.status(400).send(err);
-    } else {
-      res.json(listing);
-    }
-
-  });
+  listing = new Listing(req.body);
   /* save the coordinates (located in req.results if there is an address property) */
   if(req.results) {
     listing.coordinates = {
