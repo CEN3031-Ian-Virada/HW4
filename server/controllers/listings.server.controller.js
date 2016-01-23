@@ -77,7 +77,7 @@ exports.delete = function(req, res) {
   console.log("Deleting?");
 
   /* Remove the article */
-  listing.remove(function(err) {
+  Listing.findOneAndRemove({ code: listing.code }, function(err, listing) {
     if (err) {
       console.log(err);
       res.status(400).send(err);
