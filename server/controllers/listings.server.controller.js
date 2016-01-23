@@ -1,7 +1,8 @@
 
 /* Dependencies */
 var mongoose = require('mongoose'),
-    Listing = require('../models/listings.server.model.js');
+    Listing = require('../models/listings.server.model.js'),
+    config = require('../config/config.js');;
 
 /*
   In this file, you should use Mongoose queries in order to retrieve/add/remove/update listings.
@@ -14,6 +15,7 @@ var mongoose = require('mongoose'),
 
 /* Create a listing */
 exports.create = function(req, res) {
+  console.log("Creating?");
 
   /* Instantiate a Listing */
   var listing = new Listing(req.body);
@@ -40,12 +42,14 @@ exports.create = function(req, res) {
 /* Show the current listing */
 exports.read = function(req, res) {
   /* send back the listing as json from the request */
+  console.log("Reading?");
   res.json(req.listing);
 };
 
 /* Update a listing */
 exports.update = function(req, res) {
   var listing = req.listing;
+  console.log("Updating?");
 
   /* Replace the article's properties with the new properties found in req.body */
   listing = new Listing(req.body);
@@ -70,6 +74,7 @@ exports.update = function(req, res) {
 /* Delete a listing */
 exports.delete = function(req, res) {
   var listing = req.listing;
+  console.log("Deleting?");
 
   /* Remove the article */
   listing.remove(function(err) {
@@ -87,6 +92,7 @@ exports.delete = function(req, res) {
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 exports.list = function(req, res) {
   /* Your code here */
+  console.log("List?");
   Listing.find({}, null, {sort: {code: 1}}, function(err, listing) {
     res.json(listing);
   });
@@ -100,6 +106,7 @@ exports.list = function(req, res) {
         then finally call next
  */
 exports.listingByID = function(req, res, next, id) {
+  console.log("Listing by ID?");
   Listing.findById(id).exec(function(err, listing) {
     if(err) {
       res.status(400).send(err);
